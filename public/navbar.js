@@ -1,4 +1,6 @@
 function NavBar(){
+
+
   return(
 
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -7,7 +9,7 @@ function NavBar(){
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav">
+        <ul className="navbar-nav mr-auto">
           <li className="nav-item">
             <a className="nav-link" href="#/CreateAccount/">Create Account</a>
           </li>
@@ -25,8 +27,10 @@ function NavBar(){
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#/alldata/">AllData</a>
-          </li>          
+          </li>         
         </ul>
+        <span className="navbar-text" id="name" >
+        </span>
       </div>
     </nav>
 
