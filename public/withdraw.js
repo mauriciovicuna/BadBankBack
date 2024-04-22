@@ -72,7 +72,6 @@ function handleEmail(e){
     });
   }
   function handleWithdraw(e){
-    fetch
       const value = e.currentTarget.value;
       setAmount(value);
       if (value <= 0 || value == '' || value == NaN || value == null || value > data.balance ){

@@ -5,9 +5,7 @@ function Login(){
   const ctx                 = React.useContext(UserContext); 
   const [user,setUser]      = React.useState({name:'',email:'',valid:false});
 
-  React.useEffect(()=>{
 
-  },[])
   return (
     <Card
       bgcolor="secondary"
