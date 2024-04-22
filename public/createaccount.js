@@ -2,6 +2,9 @@ function CreateAccount(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');
   const ctx                 = React.useContext(UserContext); 
+  const [logged,setLogged]      = React.useState({name: ctx.user.name, email: ctx.user.email});
+
+
 
   return (
     <Card
@@ -28,6 +31,7 @@ function CreateForm(props){
   const [name, setName]         = React.useState('');
   const [email, setEmail]       = React.useState('');
   const [password, setPassword] = React.useState('');
+  
 
   function handle(){
     console.log(name,email,password);
@@ -38,6 +42,18 @@ function CreateForm(props){
         console.log(data);        
     })();
     props.setShow(false);
+    fetch(`/account/login/${email}/${password}`)
+    .then(response => response.text())
+    .then(text => {
+        try {
+            const data = JSON.parse(text);
+        } catch(err) {
+            props.setStatus(text);
+
+            console.log('err:', text);
+            
+        }
+    });
   }    
 
   return (<>
