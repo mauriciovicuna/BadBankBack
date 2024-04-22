@@ -31,7 +31,6 @@ function BalanceMsg(props){
 
 function BalanceForm(props){
   const [email, setEmail]   = React.useState('');
-  const [balance, setBalance] = React.useState('');  
 
   function handle(){
     fetch(`/account/findOne/${email}`)
@@ -39,11 +38,9 @@ function BalanceForm(props){
     .then(text => {
         try {
             const data = JSON.parse(text);
-            props.setStatus(text);
+            props.setStatus(data.balance);
             props.setShow(false);
-            setBalance(user.balance);
             console.log('JSON:', data);
-            console.log(user.balance)
         } catch(err) {
             props.setStatus(text)
             console.log('err:', text);
