@@ -3,19 +3,19 @@ function Login(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');    
   const ctx                 = React.useContext(UserContext); 
-  const [user,setUser]      = React.useState({name:'',email:'',valid:false});
+  const [logged,setLogged]      = React.useState({name:'',email:''});
 
   React.useEffect(()=>{
-
-  },[])
+    ctx.user = {name: logged.name, email: logged.email}
+  },[logged])
   return (
     <Card
       bgcolor="secondary"
       header="Login"
       status={status}
       body={show ? 
-        (<LoginForm setShow={setShow} setStatus={setStatus} setUser={setUser}/>) :
-        <LoginMsg setShow={setShow} setStatus={setStatus} setUser={setUser}/>}
+        (<LoginForm setShow={setShow} setStatus={setStatus} setLogged={setLogged}/>) :
+        <LoginMsg setShow={setShow} setStatus={setStatus}/>}
     />
   ) 
 }
@@ -39,11 +39,11 @@ function LoginForm(props){
     .then(response => response.text())
     .then(text => {
         try {
-            const data = JSONarse(text);
+            const data = JSON.parse(text);
             props.setStatus('');
             props.setShow(false);
             console.log('JSON:', data);    
-            props.setUser(data);  
+            props.setLogged(data);  
         } catch(err) {
             props.setStatus(text);
 
