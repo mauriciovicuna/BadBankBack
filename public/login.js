@@ -100,7 +100,8 @@ function LoginForm(props){
       const user = result.user;
       console.log(user);
       console.log(user.displayName +" " + user.email);
-      props.setLogged({name:user.displayName, email:user.email})
+      props.setLogged({name:user.displayName, email:user.email});
+      
       
       
       // IdP data available using getAdditionalUserInfo(result)
@@ -131,7 +132,7 @@ function LoginForm(props){
       onChange={e => setPassword(e.currentTarget.value)}/><br/>
 
     <button type="submit" className="btn btn-light" onClick={handle}>Login</button>
-    <button type= "submit" className="btn btn-light" onClick={handleOAuth}>Login with OAuth</button>
+    <button type= "submit" className="btn btn-light" onClick={handleOAuth}>Login with Google</button>
    
   </>);
 }

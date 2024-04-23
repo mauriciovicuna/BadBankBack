@@ -4,7 +4,15 @@ function CreateAccount(){
   const ctx                 = React.useContext(UserContext); 
   const [logged,setLogged]      = React.useState({name: ctx.user.name, email: ctx.user.email});
 
-
+  React.useEffect(()=>{
+    ctx.user = {name: logged.name, email: logged.email};
+    const span = document.getElementById("name");
+    if(ctx.user.name != ''){
+    setShow(false)
+    span.innerHTML = `Hi there<strong> ${logged.name}!</strong>`
+    }
+    else {span.innerHTML = ``}
+  },[logged])
 
   return (
     <Card
@@ -42,18 +50,6 @@ function CreateForm(props){
         console.log(data);        
     })();
     props.setShow(false);
-    fetch(`/account/login/${email}/${password}`)
-    .then(response => response.text())
-    .then(text => {
-        try {
-            const data = JSON.parse(text);
-        } catch(err) {
-            props.setStatus(text);
-
-            console.log('err:', text);
-            
-        }
-    });
   }    
 
   return (<>
