@@ -62,7 +62,7 @@ function handleEmail(e){
     .then(text => {
         try {
             const data = JSON.parse(text);
-            props.setStatus("Your actual balance is : "+" "+JSON.stringify(data.value.balance));
+            props.setStatus(JSON.stringify(data.value.name)+ " actual balance is : "+" "+JSON.stringify(data.value.balance));
             props.setShow(false);
             console.log('JSON:', data);
         } catch(err) {
