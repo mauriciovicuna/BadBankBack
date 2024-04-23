@@ -12,21 +12,35 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
 
-
-
-
 function Login(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');    
   const ctx                 = React.useContext(UserContext); 
   const [logged,setLogged]      = React.useState({name: ctx.user.name, email: ctx.user.email});
-
+  const [users,setUsers] = React.useState({});
+  
+  
   React.useEffect(()=>{
+    fetch(`/account/all`)
+    .then(response => response.text())
+    .then(text =>{ 
+    try{
+      const data = JSON.parse(text);
+      setUsers(data);
+      console.log(data);
+    }
+    catch(err){
+      console.log(err);
+    }});
+    
+
     ctx.user = {name: logged.name, email: logged.email};
     const span = document.getElementById("name");
-    if(ctx.user.name != ''){
-    setShow(false)
-    span.innerHTML = `Hi there<strong> ${logged.name}!</strong>`
+
+    if(logged.name != ''){
+        setShow(false)
+        span.innerHTML = `Hi there<strong> ${logged.name}!</strong>`
+
     }
     else {span.innerHTML = ``}
   },[logged])
@@ -37,7 +51,7 @@ function Login(){
       header="Login"
       status={status}
       body={show ? 
-        (<LoginForm setShow={setShow} setStatus={setStatus} setLogged={setLogged}/>) :
+        (<LoginForm setShow={setShow} setStatus={setStatus} setLogged={setLogged} setUsers={setUsers}/>) :
         <LoginMsg setShow={setShow} setStatus={setStatus} setLogged={setLogged}/>}
     />
     </>
@@ -49,9 +63,7 @@ function LoginMsg(props){
     props.setShow(true)
     props.setLogged({name:'',email:''})
     firebase.auth().signOut().then(() => {
-      // Sign-out successful.
     }).catch((error) => {
-      // An error happened.
     });
     
   }
@@ -69,6 +81,7 @@ function LoginForm(props){
   const [email, setEmail]       = React.useState('');
   const [password, setPassword] = React.useState('');
   function handle(){
+    console.log(users);
     fetch(`/account/login/${email}/${password}`)
     .then(response => response.text())
     .then(text => {
@@ -94,18 +107,22 @@ function LoginForm(props){
     .auth()
     .signInWithPopup( provider)
     .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      // The signed-in user info.
-
       const user = result.user;
       console.log(user);
       console.log(user.displayName +" " + user.email);
       props.setLogged({name:user.displayName, email:user.email});
-      
-      
-      
-      // IdP data available using getAdditionalUserInfo(result)
-      // ...
+      fetch(`/account/findOne/${user.email}`)
+      .then(response => response.text())
+      .then(text => {
+        try {
+            const data = JSON.parse(text);
+        } 
+        catch(err) {
+          fetch(`/account/create/${user.displayName}/${user.email}/notshowingforobviousreasons`)
+          console.log("creating user")
+        }
+    });
+    
     }).catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;
