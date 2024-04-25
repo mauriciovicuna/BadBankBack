@@ -1,5 +1,6 @@
 function Spa() {
   return (
+    <>
     <HashRouter>
       <div>
         <NavBar/>        
@@ -17,6 +18,7 @@ function Spa() {
         </UserContext.Provider>
       </div>
     </HashRouter>
+    </>
   );
 }
 

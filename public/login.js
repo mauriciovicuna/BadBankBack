@@ -116,6 +116,10 @@ function LoginForm(props){
       .then(text => {
         try {
             const data = JSON.parse(text);
+            props.setStatus('');
+            props.setShow(false);
+
+
         } 
         catch(err) {
           fetch(`/account/create/${user.displayName}/${user.email}/notshowingforobviousreasons`)
